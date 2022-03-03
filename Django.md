@@ -267,7 +267,7 @@ url태그를 활용하여 name의 값을 사용 가능함
 
 **[Template의 html]**
 
-![image-20220304003647001](Django.assets/image-20220304003647001.png)
+![image-20220304003647001](https://user-images.githubusercontent.com/93081720/156602855-4a841b16-9b85-485f-ba09-4f6e852d7f39.png)
 
 
 
@@ -298,7 +298,7 @@ url태그를 활용하여 name의 값을 사용 가능함
 
 예) articles앱의 index.html에서 page앱의 index를 url로 호출
 
-![image-20220304005854625](Django.assets/image-20220304005854625.png)
+![image-20220304005854625](https://user-images.githubusercontent.com/93081720/156602972-54f237ac-f0ea-45b8-8d9e-d8c322f70f96.png)
 
 
 
