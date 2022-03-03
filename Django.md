@@ -211,13 +211,94 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
 
 웹 어플리케이션은 URL을 통한 client의 request에서부터 시작하므로 중요함
 
-##### Variable Routing
+##### 1. Variable Routing
 
 url 주소를 변수로 동적으로 사용하는 것을 말함.
 url의 일부를 변수로 지정하여 view함수의 인자로 넘길 수 있음.
 변수 값에 따라 urls.py의 하나의 path()에 여러 페이지를 넘길 수 있음
 
-![image-20220304000102439](Django.assets/image-20220304000102439.png)
+- `<>`을 사용함
+- str: 모든 문자열과 매칭(`/`, 비어있는 문자열 제외)
+- int: 0 또는 양의 정수와 매칭
+
+**[urls.py]**
+
+![image](https://user-images.githubusercontent.com/93081720/156591374-11eb5015-322c-41c6-a938-59414994f9af.png)
+
+**[views.py]**
+
+![image](https://user-images.githubusercontent.com/93081720/156591967-e59b8708-0759-405c-8e18-8e1376b837e5.png)
+
+**[hello.html]**
+
+![image](https://user-images.githubusercontent.com/93081720/156592219-439e6820-08e4-4b35-b006-ef2476bf5cfd.png)
+
+
+
+##### 2. App URL Mapping
+
+urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의 함수 또한 많아진다. 또한 어플리케이션도 더 생길 수 있기 때문에 프로젝트 단위에서 urls.py에서 관리하는 것은 유지보수에 있어 좋지 않다. 따라서 각 app에서 urls.py를 작성하여 path()를 관리하게 한다.
+
+ **[프로젝트의 urls.py 수정]**
+
+`from django.urls import include`를 해준 다음, 기존에 views.OOO 이렇게 썼던 부분을
+`include('App이름.urls')`로 변경한다. 이는 해당 App의 이름으로 요청된 주소와 일치하는 부분까지 잘라내고, 이후에 이어지는 상세 주소를 그 App의 urls.py 모듈로 넘긴다는 의미이다.
+
+![image](https://user-images.githubusercontent.com/93081720/156593377-dd55a1c4-db0f-4b5d-8c33-0d80c4a21577.png)
+
+
+
+**[어플리케이션의 urls.py 작성]**
+
+어플리케이션 폴더에서 urls.py를 만들고 해당 어플리케이션으로 들어오는 상세 주소에 대한 urlpatters를 작성한다. 이 때, 현재 디렉토리에서 views 모듈을 호출하는`from . import views`를 써줘야한다.(함수를 호출해야하니까)
+
+![image](https://user-images.githubusercontent.com/93081720/156594369-49e6fddb-7ecd-4967-ba0a-96b056a062bb.png)
+
+
+
+##### 3. Naming URL Pattern
+
+path()함수 안에 `name='index'`, `name='dinner'`와 같이 naming을 하여 template의 html에서
+url태그를 활용하여 name의 값을 사용 가능함
+
+**[App의 urls.py]**
+
+![image](https://user-images.githubusercontent.com/93081720/156597275-d28fbcfc-247e-4594-ae1d-457e8a01893a.png)
+
+**[Template의 html]**
+
+![image-20220304003647001](Django.assets/image-20220304003647001.png)
+
+
+
+##### 4. 이름이 같은 파일이 각 어플리케이션의 templates에 존재할 경우
+
+이름이 같은 `.html` 파일이 각 App의 templates 폴더에 존재할 경우에 django는 settings.py에 INSTALLED_APPS에 등록된 App 순서대로 파일을 찾기 시작하기 때문에, 상단에 있는 apps에 있는 .html파일을 불러온다. → 우리가 필요한건 다른 App의 동일한 이름의 .html인데 이는 문제이다.
+
+**해결법?**
+
+1. 각 App의 templates폴더 하위에 App명과 동일한 폴더를 만들고 해당 폴더에 기존 templates에 있던 html파일을 옮긴다.
+
+<div><img src="https://user-images.githubusercontent.com/93081720/156600407-8ccaaf5a-295c-45eb-a34f-4b46ce9950f3.png" alt="image" style="zoom: 67%;" /></div>
+
+2. 그 후, 해당 App의 views.py에 있는 함수들의 html 경로를 `'App이름/ooo.html'`과 같이 수정한다.
+
+![image](https://user-images.githubusercontent.com/93081720/156599326-5fd32396-0067-44eb-9e54-8a472a95cf4d.png)
+
+
+
+##### 5. 템플릿에서 다른 어플리케이션의 동일한 이름의 html을 불러오고 싶을 경우
+
+1. App의 urls.py에 `app_name='App명'`을 작성한다.(규칙임)
+
+![image](https://user-images.githubusercontent.com/93081720/156601435-0494a9bd-3f38-493b-a581-94e7b85708af.png)
+
+2.  각 template(.html)의 url 태그에 있는 url을 `'App명:지정한name'`형태로 수정한다.
+   단, 이 때 해당 url로 call되는 모든 url태그의 url을 이런 형식으로 수정해줘야 오류 및 충돌이 나지 않음
+
+예) articles앱의 index.html에서 page앱의 index를 url로 호출
+
+![image-20220304005854625](Django.assets/image-20220304005854625.png)
 
 
 
