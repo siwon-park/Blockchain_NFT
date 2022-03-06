@@ -6,7 +6,7 @@ BASE_URL = "https://api.themoviedb.org/3"
 def index(request):
     path = "/movie/now_playing"
     params = {
-        "api_key":"f102e9afe1b4bb700b3804dd4734a763",
+        "api_key":"use_your_own_api_key",
         "language":"ko",
         "page":1,
         "region":"KR",
@@ -29,7 +29,7 @@ def recommendations(request):
     movie_id = 278
     path = f"/movie/{movie_id}/recommendations"
     params = {
-        "api_key":"f102e9afe1b4bb700b3804dd4734a763",
+        "api_key":"use_your_own_api_key",
         "language":"ko",
         "page":1,
     }
