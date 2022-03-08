@@ -50,8 +50,12 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 ※ 다른 프레임워크는 MVC(Model - View - Controller) 디자인 패턴을 갖고 있음
 
 - **Model** : 프로그램의 데이터 구조를 정의하고 데이터베이스의 기록을 관리함 
+  - models.py를 통해 DB에 쿼리(query)를 요청하여 응답을 반환하는 것이 동적 웹
+
 - **Template** : 파일의 구조나 레이아웃을 정의함. 표현(Presentation)/ 렌더링(Rendering)이 템플릿의 핵심
 - **View** : 요청을 수신하고 응답을 반환함. Model을 통해서 요청에 따른 필요 데이터에 접근. Template을 통해 응답의 서식을 결정함(조작)
+  - 단순히 views.py의 함수와 templates의 템플릿으로 요청에 따른 응답을 한다면 그것은 정적 웹이랑 같음
+
 
 ![Model, View, Template](https://user-images.githubusercontent.com/93081720/156356726-d0a3712a-48fc-43a8-bf9a-eb91193b7787.png)
 
@@ -81,14 +85,21 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 ##### 1. 가상환경(venv) 생성 및 활성화
 
 - 가상환경 생성 : `$ python -m venv vevn`
+
 - 가상환경 활성화 : `$ source venv/Scripts/activate`
+
 - 가상환경 파이썬 인터프리터 설정
+
+  ※ 가상환경을 생성하는 이유
+
+  1. 나만의 공간을 따로 만들어 관리 및 유지, 보수의 용이성을 확보하기 위함이며, 문제 발생 시 해당 가상 환경만 없애면 됨
+  2. 다른 사람과 공동으로 작업할 때, 똑같은 환경을 유지하면서 작업을 하기 위함
 
 ##### 2. 가상환경에 Django 설치
 
 - django 설치 : `$ pip install django==3.2.12`
 
-- 필요한 모든 패키지 설치 후 freeze: `$ pip freeze > requirements.txt`
+- ★필요한 모든 패키지 설치 후 freeze ★: `$ pip freeze > requirements.txt`
   - 다른 환경에서 필요 패키지 설치 : `$ pip install -r requirements.txt`
 
 ##### 3. 프로젝트 생성
@@ -101,6 +112,8 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 ##### 4. 서버 실행 및 확인
 
 - 서버 실행 및 확인 : `$ python manage.py runserver`
+  - db.sqlite3 파일 생성됨(model, DB와 관련)
+
 - 서버 끄기 : `ctrl + c`
 
 ##### 5. 앱 생성 및 등록
