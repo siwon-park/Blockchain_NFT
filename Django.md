@@ -550,6 +550,8 @@ h1 {
 객체 지향 프로그래밍 언어(OOP)를 사용하여, 서로 호환되지 않는 유형의 시스템(Django- SQL) 간에 데이터를 변환하는 프로그래밍 기술을 말함 → **DB를 객체로 조작하기 위해 ORM을 쓴다**
 Django는 내장 django ORM을 사용함
 
+![image](https://user-images.githubusercontent.com/93081720/157417164-56aeb626-fc38-48e6-b1de-b803a967973f.png)
+
 - 장점
   - SQL을 잘 알지 못해도 사용하는 OOP언어만 알고 있으면 사용 가능함
   - SQL의 절차적 접근이 아닌 객체 지향적 접근으로 인한 높은 생산성
@@ -574,6 +576,11 @@ models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
 - `TextField(**options)`
   - 글자 수가 많을 때 사용함
   - max_length 옵션 작성 시 html의 textarea위젯에는 반영이 되지만 모델과 DB에서는 적용 X
+- `DateTimeField(**options)`
+  - (DateTimeField는 DateField의 서브 클래스임)
+  - auto_now_add: 최초 생성 일자; True일 경우, 최초 생성 일자를 기록함
+  - auto_now: 최종 수정 일자; True일 경우
+
 
 
 
@@ -587,7 +594,7 @@ django가 model에 생긴 변화를 반영하는 방법
 
 - 모델에 반영한 것에 기반한 새로운 마이그레이션(=설계도)을 만들 때 사용
 
-- `$ python manage.py makemigrations`
+- `$ python manage.py makemigrations` : migration파일 생성
   - app명/migrations/0001_initial.py 생성됨
 
 ##### 2. migrate(★)
@@ -595,7 +602,7 @@ django가 model에 생긴 변화를 반영하는 방법
 - 마이그레이션을 DB에 반영하기 위해 사용함(=설계도를 실제 DB에 반영하는 과정)
 - 모델의 변경 사항들과 DB의 스키마를 동기화
 
-- `$ python manage.py migrate <app이름>`
+- `$ python manage.py migrate <app이름>` : migrate실행(model과 DB의 동기화)
   - app이 여러 개일 경우 migrate 뒤에 app이름을 명명해줘야 명령이 실행됨
 
 ##### 3. sqlmigrate
@@ -610,6 +617,95 @@ django가 model에 생긴 변화를 반영하는 방법
 - 프로젝트 전체의 마이그레이션 상태를 확인하기 위해 사용하며, 마이그레이션 파일들이 migrate됐는지 여부를 확인 할 수 있음
 - `$ python manage.py showmigrations`
   - 실행하면 네모 박스 안에 X표시된 아이콘이 마이그레이션 파일 앞에 있는데, 이는 migrate되었다는 체크표시임
+
+### DB API
+
+DB를 조작하기 위한 도구
+
+Django가 기본적으로 ORM을 제공함에 따른 것으로 DB를 편하게 조작할 수 있도록 도와줌.
+Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울 수 있는 database-abstract API(혹은 database-access API)를 자동으로 만듦
+
+※ DB API 구문 테스트는 `$ python manage.py shell_plus`를 하여 진행한다.
+
+#### DB API 구문
+
+![image](https://user-images.githubusercontent.com/93081720/157427156-66c8f17d-2ed9-4475-a5d7-5a00f254b51c.png)
+
+- `Class Name`: models.py 파이썬 클래스에서 정의한 클래스 명
+
+- `Manager`: Django 모델에 DB query 작업이 제공되는 인터페이스
+  기본적으로 모든 django 모델 클래스에 `objects`라는 manager를 추가(objects 복수형 유의!)
+
+- `QuerySet API`: DB로부터 조회, 필터, 정렬 등의 요청을 하는 명령어
+  QuerySet API method는 크게 2가지로 분류 →
+  1. 새로운 쿼리셋을 반환하는 메서드
+  2. 반환이 없는 메서드 
+
+  - `all()`: 모든 쿼리셋을 가져와라(조회)
+  - `get(조건)`: 특정 조건에 부합하는 쿼리셋을 1개만 조회(고유성을 보장하는 조회에서만 사용)
+  - `filter(조건)`: 특정 조건에 부합하는 쿼리셋들을 조회함
+  - `create(*args)`: 쿼리셋 데이터를 생성해라
+  - `delete()`: 쿼리셋을 삭제함
+
+  ※ QuerySet: DB로 부터 전달받은 객체 목록, queryset안의 객체는 0개 이상임
+
+  ※ [장고 공식 쿼리셋 레퍼런스](https://docs.djangoproject.com/en/3.2/ref/models/querysets/)
+
+
+
+### CRUD
+
+컴퓨터 소프트웨어가 기본적으로 가지는 데이터 처리 기능 Create(생성), Read(읽기), Update(갱신), Delete(삭제)를 묶어 부르는 말
+
+#### 1. Create
+
+※ 기본적으로 pk(혹은 id)값은 따로 지정하지 않을 경우 save를 하여 DB에 반영되는 순간, 번호값을 부여받아 생성됨
+
+##### 첫번째 방법 - 인스턴스 생성 후 인스턴스 변수 변경
+
+```python
+>>> article = Article() # Article클래스의 article 인스턴스 생성
+>>> article.title = 'first'
+>>> article.content = 'django!'
+>>> article.save() # 반드시 save메서드로 save를 해줘야함
+```
+
+
+
+##### 두번째 방법 - 초기값과 함께 인스턴스 생성
+
+```python
+# Article클래스의 article 인스턴스를 생성하면서 기본값을 부여함
+>>> article = Article(title="second", content="django!!")
+>>> article.save() # save하여 DB에 저장
+```
+
+
+
+##### 세번째 방법 - QuertSet API `create()`사용
+
+```python
+>>> Article.objects.create(title="third", content="django!") # 바로 저장됨
+```
+
+※ **save 메서드**(`save()`)
+객체를 DB에 저장하는 메서드
+데이터 생성 시 save를 하기 전에는 객체의 id값이 무엇인지 알 수 없음 → id값은 DB에서 계산되기 때문
+**모델을 인스턴스화 하는 것은 DB에 영향을 미치는 행동이 아니므로 반영을 위해선 반드시 save가 필요함**
+
+
+
+#### 2. Read
+
+QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
+
+- `all()`
+- `get()`
+- `filter()`
+
+#### 3. Update
+
+#### 4. Delete
 
 
 
@@ -643,3 +739,13 @@ django가 model에 생긴 변화를 반영하는 방법
       - `ALLOWED_HOSTS = []`에 값을 넣어야 False로 변경 가능
 - 서버를 실행(run)한 상태에서 스크립트 파일을 수정한 것은 저장 후 새로고침하면 html, css와 마찬가지로
   적용이 가능하지만, 폴더/파일의 생성/변경 등 구조적으로 무엇인가 바뀌었을 때는 서버를 껐다가 켜야함
+
+- Django shell
+  - 일반 python shell을 통해선 django 프로젝트 환경에 접근할 수 없음. 그래서 django 프로젝트 설정이 load된 python shell을 통해 DB API 구문 테스트를 진행해야함
+  - 설치
+    - `$ pip install ipython`
+    - `$ pip install django-extensions`
+      ※ django-extensions는 반드시 `settings.py`의 `INSTALLED_APPS`에 `django_extensions`로 등록해줘야함(등록시 하이픈(`-`) → 언더바(`_`) 유의!!)
+  - 실행
+    - `$ python manage.py shell_plus`
+    - `.py`파일을 수정하였다면 반드시 shell_plus를 재시작해야 반영된 것을 실행시킬 수 있음
