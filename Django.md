@@ -1,6 +1,6 @@
 # Django
 
-### 웹 프레임워크(Web Framework)
+### 1. 웹 프레임워크(Web Framework)
 
 #### 1. Static Web vs. Dynamic Web
 
@@ -50,7 +50,7 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 ※ 다른 프레임워크는 MVC(Model - View - Controller) 디자인 패턴을 갖고 있음
 
 - **Model** : 프로그램의 데이터 구조를 정의하고 데이터베이스의 기록을 관리함 
-  - models.py를 통해 DB에 쿼리(query)를 요청하여 응답을 반환하는 것이 동적 웹
+  - model을 통해 DB에 쿼리(query)를 요청하여 결과를 반환받아 Template과 함께 응답하면 동적 웹
 
 - **Template** : 파일의 구조나 레이아웃을 정의함. 표현(Presentation)/ 렌더링(Rendering)이 템플릿의 핵심
 - **View** : 요청을 수신하고 응답을 반환함. Model을 통해서 요청에 따른 필요 데이터에 접근. Template을 통해 응답의 서식을 결정함(조작)
@@ -80,9 +80,11 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 
 
-#### 4. 프로젝트 환경 구축 순서
+### 2. 프로젝트 환경 구축 순서
 
-##### 1. 가상환경(venv) 생성 및 활성화
+모든 과정에서 꼭꼭 오타를 유의할 것!!! 오타 때문에 생각보다 많은 시간을 소비할 때가 많았음
+
+#### 1. 가상환경(venv) 생성 및 활성화
 
 - 가상환경 생성 : `$ python -m venv vevn`
 
@@ -95,28 +97,28 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
   1. 나만의 공간을 따로 만들어 관리 및 유지, 보수의 용이성을 확보하기 위함이며, 문제 발생 시 해당 가상 환경만 없애면 됨
   2. 다른 사람과 공동으로 작업할 때, 똑같은 환경을 유지하면서 작업을 하기 위함
 
-##### 2. 가상환경에 Django 설치
+#### 2. 가상환경에 Django 설치
 
 - django 설치 : `$ pip install django==3.2.12`
 
 - ★필요한 모든 패키지 설치 후 freeze ★: `$ pip freeze > requirements.txt`
   - 다른 환경에서 필요 패키지 설치 : `$ pip install -r requirements.txt`
 
-##### 3. 프로젝트 생성
+#### 3. 프로젝트 생성
 
 - 프로젝트 생성 전 `.gitignore` 및 `README.md` 생성하기
 - 프로젝트 생성: `$ django-admin startproject <프로젝트명> .`
   - 끝에 있는 `.`은 현재 디렉토리를 의미함. 프로젝트명만 쓸 경우 해당 프로젝트명 디렉토리 아래
     프로젝트명 디렉토리가 생성됨
 
-##### 4. 서버 실행 및 확인
+#### 4. 서버 실행 및 확인
 
 - 서버 실행 및 확인 : `$ python manage.py runserver`
   - db.sqlite3 파일 생성됨(model, DB와 관련)
 
 - 서버 끄기 : `ctrl + c`
 
-##### 5. 앱 생성 및 등록
+#### 5. 앱 생성 및 등록
 
 - 어플리케이션 생성 : `$ python manage.py startapp <어플리케이션명>` ,
   								   `$ django-admin startapp <어플리케이션명> `
@@ -134,22 +136,20 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 
 
-#### 5. 코드의 작성 순서
+### 3. 코드의 작성 순서
 
 `urls.py` → `views.py` → `template.html`을 순서로 작성한다.
 
 그 이유는 요청 ~ 응답에 이르기까지 data가 흐르는 순서이기 때문이다.
 
-
-
-#### 6. urls.py
+#### 1. urls.py
 
 **주소에 따른 요청을 알맞은 view함수로 전달**
 ※ url에서는 주소를 쓸 때 `_`(언더바)보다는 `-`(하이픈)을 쓴다.
 
 
 
-#### 7. views.py
+#### 2. views.py
 
 **요청을 수신하고, 응답을 반환하는 함수를 작성함**
 Model을 통해 요청에 맞는 필요 데이터에 접근함
@@ -157,7 +157,7 @@ Template에 요청에 맞는 응답 서식을 맞기고 불러옴
 
 
 
-#### 8. Template
+#### 3. Template
 
 **실제 내용을 표현하는 파일,  데이터 표현(presentation)을 제어하는 도구이자 표현과 관련된 로직**
 어플리케이션 폴더 안 하위 디렉토리로 `templates`폴더를 만들고 그 안에 django html로 저장함
@@ -251,7 +251,7 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
 
 
 
-#### 9. HTTP request
+### 4. HTTP request
 
 ##### 1. HTTP(HyperText Transfer Protocol)
 
@@ -302,11 +302,11 @@ def catch(request):
 
 
 
-#### 10. URL
+### 5. URL
 
 웹 어플리케이션은 URL을 통한 client의 request에서부터 시작하므로 중요함
 
-##### 1. Variable Routing
+#### 1. Variable Routing
 
 url 주소를 변수로 동적으로 사용하는 것을 말함.
 url의 일부를 변수로 지정하여 view함수의 인자로 넘길 수 있음.
@@ -330,7 +330,7 @@ url의 일부를 변수로 지정하여 view함수의 인자로 넘길 수 있�
 
 
 
-##### 2. App URL Mapping
+#### 2. App URL Mapping
 
 urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의 함수 또한 많아진다. 또한 어플리케이션도 더 생길 수 있기 때문에 프로젝트 단위에서 urls.py에서 관리하는 것은 유지보수에 있어 좋지 않다. 따라서 각 app에서 urls.py를 작성하여 path()를 관리하게 한다.
 
@@ -351,7 +351,7 @@ urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의
 
 
 
-##### 3. Naming URL Pattern
+#### 3. Naming URL Pattern
 
 path()함수 안에 `name='index'`, `name='dinner'`와 같이 naming을 하여 template의 html에서
 url태그를 활용하여 name의 값을 사용 가능함
@@ -399,6 +399,9 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 
 2.  각 template(.html)의 url 태그에 있는 url을 `'App명:지정한name'`형태로 수정한다.
    단, 이 때 해당 url로 call되는 모든 url태그의 url을 이런 형식으로 수정해줘야 오류 및 충돌이 나지 않음
+
+※ app_name을 urls.py에 쓰는 이유?
+우리가 어떤 사람과 처음 만났을 때 서로의 이름을 먼저 이야기하듯이, app도 마찬가지로 프로젝트의 urls.py에서 해당 앱에 해당하는 주소를 넘겨받아 왔을 때, 앱 자신의 이름을 먼저 이야기한다고 이해 		
 
 예) articles앱의 index.html에서 page앱의 index를 url로 호출
 
@@ -477,6 +480,138 @@ h1 {
     color: royalblue;
 }
 ```
+
+
+
+### Model
+
+웹 어플리케이션의 데이터를 구조화하고 조작하기 위한 도구
+
+- Django는 Model을 통해 데이터 베이스에 접속하고 관리함
+- 저장된 데이터 베이스(DB)의 구조(Layout)이며, 구조화/통합된 데이터에 대한 정보를 가짐
+  - 사용자가 사용/저장하는 데이터들의 필수 필드와 관련된 동작을 포함함
+- 일반적으로 각각의 Model은 하나의 DB 테이블(Table)에 맵핑됨
+  - django에서는 파이썬의 Class를 활용함
+
+
+
+### Data Base
+
+체계화된 데이터들의 모임, 집합
+
+#### 1. 쿼리(Query)
+
+- 데이터를 조회하거나, 조건에 맞는 데이터를 추출/조작하는 명령어
+- "Query를 날린다" == "DB를 조작한다"
+- SQL(Structured Query Language): RDB(관계형 데이터 베이스)를 조작하기 위해 구조화된 쿼리 언어
+
+
+
+#### 2. 구조(Structure)
+
+##### 1. 스키마(Schema)
+
+- DB의 구조와 제약 조건(자료의 구조, 타입, 표현 방법, 관계 등)에 대한 전반적인 **명세**를 기술한 것
+  - 저장하려는 데이터들의 메타 정보, 명세서; 이런 데이터들을 이렇게 저장할 것이다라고 명명
+- 스키마를 먼저 작성한 후 데이터 테이블을 작성하기 시작한다.
+
+##### 2. 테이블(Table)
+
+열/행의 형식을 사용해 조직된 데이터 요소들의 집합. **django에서는 클래스가 하나의 데이터 테이블**
+
+- 열(column): 필드(field), 속성
+  - id(pk), name, age, phone, email 등의 속성
+  - 열에는 각 속성, 필드에 해당하는 값들만 저장됨
+    - 예) age열에는 나이에 해당하는 정수값만 저장됨
+  - **파이썬 클래스를 정의하면서 클래스 속성(멤버)를 정의**
+    - 클래스의 멤버가 테이터 테이블의 속성이 됨
+- 행(row): 레코드(record)
+  - 실제 데이터는 행별로 저장된다
+    - 각 사용자별 모든 항목에 대한 데이터
+  - **파이썬 클래스 인스턴스 생성**
+    - 인스턴스가 하나의 데이터 셋이 됨
+- pk(primary key) 또는 id
+  - 각 행(레코드)의 고유값(중복 x)으로, 반드시 설정해야하며, DB관리 및 관계 설정 시 주요하게 활용
+
+| pk   | name  | age  | phone             |
+| ---- | ----- | ---- | ----------------- |
+| 1    | SIWON | 30   | 010 - 1234 - 5678 |
+| 2    | KIM   | 25   | 011 - 1234 - 8839 |
+| 3    | LEE   | 28   | 010 - 2424 - 4545 |
+
+
+
+※ DBMS(Data Base Management System): DB를 관리하기 위한 서버 및 프로그램
+
+
+
+### ORM(Object-Relational-Mapping)
+
+객체 지향 프로그래밍 언어(OOP)를 사용하여, 서로 호환되지 않는 유형의 시스템(Django- SQL) 간에 데이터를 변환하는 프로그래밍 기술을 말함 → **DB를 객체로 조작하기 위해 ORM을 쓴다**
+Django는 내장 django ORM을 사용함
+
+- 장점
+  - SQL을 잘 알지 못해도 사용하는 OOP언어만 알고 있으면 사용 가능함
+  - SQL의 절차적 접근이 아닌 객체 지향적 접근으로 인한 높은 생산성
+    - 현대 웹 프레임워크의 요점은 웹 개발 속도를 높이는 것(높은 생산성)
+- 단점
+  - ORM만으로 완전한 서비스를 구현하기 어려운 경우가 있음
+
+
+
+### models.py
+
+models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
+각 모델들은 django.db의 models의 Model 클래스의 서브 클래스로 표현된다
+
+![image](https://user-images.githubusercontent.com/93081720/157382940-8d3e85e5-dcaf-4b8f-af3c-2b23e1272e6c.png)
+
+- 클래스를 정의하는 것은 어떤 타입의 DB칼럼을 정의할 것인지 정의하는 것과 같음
+  => 클래스 속성이 데이터 테이블의 열에 맵핑되기 때문
+  - 위 그림에서 title, content, created_at, updated_at은 모델의 field이자, DB의 칼럼이 됨
+- `CharField(max_length=None, **options)`
+  - 길이에 제한이 있는 문자열을 데이터 값으로 넣을 때 사용(따라서 max_length는 필수 인자임)
+- `TextField(**options)`
+  - 글자 수가 많을 때 사용함
+  - max_length 옵션 작성 시 html의 textarea위젯에는 반영이 되지만 모델과 DB에서는 적용 X
+
+
+
+#### Migrations
+
+django가 model에 생긴 변화를 반영하는 방법
+
+[명령어]
+
+##### 1. makemigrations(★)
+
+- 모델에 반영한 것에 기반한 새로운 마이그레이션(=설계도)을 만들 때 사용
+
+- `$ python manage.py makemigrations`
+  - app명/migrations/0001_initial.py 생성됨
+
+##### 2. migrate(★)
+
+- 마이그레이션을 DB에 반영하기 위해 사용함(=설계도를 실제 DB에 반영하는 과정)
+- 모델의 변경 사항들과 DB의 스키마를 동기화
+
+- `$ python manage.py migrate <app이름>`
+  - app이 여러 개일 경우 migrate 뒤에 app이름을 명명해줘야 명령이 실행됨
+
+##### 3. sqlmigrate
+
+- 마이그레이션에 대한 SQL구문을 볼 수 있음
+- 마이그레이션이 SQL문으로 어떻게 해석되어 동작할지 미리 확인 가능함
+- `$ python manage.py sqlmigrate <app이름> <migration 번호>`
+  - 예) python manage.py sqlmigrate articles 0001
+
+##### 4. showmigrations
+
+- 프로젝트 전체의 마이그레이션 상태를 확인하기 위해 사용하며, 마이그레이션 파일들이 migrate됐는지 여부를 확인 할 수 있음
+- `$ python manage.py showmigrations`
+  - 실행하면 네모 박스 안에 X표시된 아이콘이 마이그레이션 파일 앞에 있는데, 이는 migrate되었다는 체크표시임
+
+
 
 
 
