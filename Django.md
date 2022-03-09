@@ -618,6 +618,8 @@ django가 model에 생긴 변화를 반영하는 방법
 - `$ python manage.py showmigrations`
   - 실행하면 네모 박스 안에 X표시된 아이콘이 마이그레이션 파일 앞에 있는데, 이는 migrate되었다는 체크표시임
 
+
+
 ### DB API
 
 DB를 조작하기 위한 도구
@@ -699,15 +701,150 @@ Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울
 
 QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
 
-- `all()`
-- `get()`
-- `filter()`
+- `all()`: 현재 모든 쿼리셋을 반환
+
+  - `ClassName.objects.all()`
+
+- `get()`: 주어진 조건과 일치하는 객체를 반환함(1개)
+
+  - 객체를 찾을 수 없으면 `DoesNotExist` 예외 발생
+  - 둘 이상의 객체를 찾으면 `MultipleObjectsReturned` 예외 발생
+  - 따라서 pk값과 같이 유일성(uniqueness)이 보장되는 조건이어야함
+  - `ClassName.objects.get(pk=1)`
+
+- `filter()`: 주어진 조건과 일치하는 쿼리셋(들)을 반환함
+
+  - `ClassName.objects.filter(content='django!')`
+
+  
 
 #### 3. Update
 
+- 인스턴스의 변수값을 변경하고 save()
+
+
+
 #### 4. Delete
 
+- `인스턴스.delete()` 또는 `ClassName.objects.get(pk=int).delete()`
+- 쿼리셋을 삭제하고 삭제된 객체 수와 객체 유형당 삭제 수가 포함된 딕셔너리를 반환함
 
+
+
+#### 5. Field Lookups
+
+`get()`, `filter()`를 통한 조회 시 검색 조건을 줄 수 있음
+
+예시)
+
+- `ClassName.objects.filter(pk__gt=2)` → pk값이 2보다 큰 객체를 반환해라
+
+- `ClassName.objects.filter(content__contains='ja')` → content에 'ja'가 포함된 객체를 반환
+
+
+
+### Admin Site
+
+- 서버의 관리자가 활용하기 위한 페이지
+  - record 생성 여부 확인에 매우 유용하며, 직접 record를 삽입할 수도 있음
+
+- models.py의 클래스를 admin.py에 등록하고 관리함
+
+#### 1. admin 생성
+
+- 관리자 계정 생성: `$ python manage.py createsuperuser`
+  - 주의) auth에 관련된 기본 테이블이 생성되지 않으면 관리자 계정을 생성할 수 없음
+    - django.contrib.auth이 django 기본 앱으로 등록되어 있어 이상한 짓만 하지 않으면 괜찮음 
+
+
+
+#### 2. admin 등록
+
+- admin.py 파일 생성
+  - 만든 model을 보기 위해서는 admin.py에 해당 내용을 작성해서 django admin 서버에 등록해야함
+  - admin.py는 admin site에 내가 만든 model이 관리자 인터페이스를 가지고 있다고 알리는 것임
+- `from django.contrib import admin`
+- `from .models import ClassName` : 현재 app의 models에서 클래스를 import
+  - `.models`는 django만의 명시적 표기임
+- `admin.site.register(ClassName, **options)`: admin stie에 model을 등록하겠다 
+
+![image](https://user-images.githubusercontent.com/93081720/157456206-edf63d97-2cdd-4452-9c31-31f0fd76e0b6.png)
+
+#####  ※ admin options
+
+admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을 정의한 다음, register을 할 때, 클래스명 다음에 넣음 예) admin.site.register(Article, ArticleAdmin)
+
+[ModelAdimin options](https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#modeladmin-options)
+
+- `list_display`
+  - models.py에 정의한 클래스에 있는 각각의 속성들과 그에 따른 값을 admin site에 출력하게 설정
+- `list_filter`
+  - 지정한 속성값에 필터링 기능을 추가함
+- `list_display_links`
+  - 지정한 속성값이 하이퍼링크를 갖게 함
+
+
+
+### HTTP method
+
+#### 1. GET
+
+- 특정 리소스를 가져오도록 요청할 때 사용
+- 단, 반드시 데이터를 가져올 때만 사용해야함
+- DB에 변화를 주지 않음
+- CRUD에서 R 역할을 담당
+
+
+
+#### 2. POST
+
+- 서버로 데이터를 전송할 때 사용
+- 데이터를 생성/변경하기 위해 HTTP의 body에 담아 전송함
+- DB/서버에 변경사항을 만듦
+- CRUD에서 C, U, D 역할을 담당
+
+
+
+#### ※ 사이트 간 요청 위조(CSRF; Cross-Site Request Forgery)
+
+- 웹 어플리케이션의 취약점 중 하나로 사용자가 자신의 의지와 무관하게 해커가 의도한 행동을 하여 특정 웹 페이지를 보안에 취약하게 하거나 수정 및 삭제 등의 작업을 하게 끔 만드는 공격 방법
+
+- Django에서는 CSRF에 대항하기 위해 Middleware와 CSRF token template tag를 제공함
+- Middleware
+  - 공통 서비스 및 기능을 앱에 제공하는 소프트웨어
+  - 데이터 관리, 앱 서비스, 인증 및 API관리를 주로 미들웨어를 통해서 처리함
+  - 개발자들이 앱을 보다 효율적으로 구축할 수 있도록 지원하며, 앱과 데이터 및 사용자 사이를 연결하는 요소처럼 작동함
+- CSRF Token
+  - 사용자의 데이터에 임의의 난수 값을 부여해, 매 요청마다 해당 난수 값을 포함하여 전송하도록 함
+  - 이후 서버에서 요청을 받을 때마다 전달된 토큰값이 유효한지 검증
+  - GET을  제외한, 데이터 변경이 가능한 POST, DELETE 메서드 등에 적용
+
+-  `{% csrf_token %}`
+  - from 태그 밑에 작성하여 form 태그 안의 label, input에 대해 csrf 방어를 적용함
+  - input type이 hidden으로 작성되며, value값은 해시(hash)값으로 설정됨
+  - 만약 해당 태그 없이 요청을 보낸다면 django 서버에서 403 forbidden을 응답함
+
+
+
+#### ※ redirect()
+
+우리가 어떤 웹 페이지에서 행동을 하고나서 다른 웹 페이지로 이동시키고자 설계를 할 때, 단순히 render를 쓴다면 다른 웹 페이지로 이동하는 것이 아니라 해당 웹 페이지에 머물러 있고 화면만 해당 웹 페이지의 views함수를 통해서 다른 웹 페이지를 표현한 것을 보여줌 => 머무르고 있는 해당 웹 페이지의 views함수의 데이터로 이동하고자 하는 웹 페이지를 표현하고 있음
+
+물론 여기서 이동하고자 하는 웹 페이지의 views함수와 마찬가지로 똑같이 데이터를 조작하게 현재 웹 페이지의 views함수를 수정하면 되지만, 그것은 너무 비효율적이고 하드 코딩임
+
+따라서 우리는 이 문제를 간단히 해결하기 위해 redirect를 사용함
+
+- `redirect()`
+  - 해당 URL로 요청을 다시 보냄. 브라우저는 현재 경로에 따라 전체 URL 자체를 재구성(reconstruct)
+  - urlpattern name이나 view object, model, 절대 경로, 상대 경로가 인자로 사용 가능함
+
+**[app의 urls.py 수정]**
+
+![image](https://user-images.githubusercontent.com/93081720/157469194-a8c5225b-e55c-4a92-98cb-1031446326f0.png)
+
+**[app의 views.py 수정]**
+
+![image](https://user-images.githubusercontent.com/93081720/157469924-27d34a35-429d-4cf4-8669-778bee10ef4e.png)
 
 
 
