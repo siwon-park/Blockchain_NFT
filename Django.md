@@ -1,10 +1,12 @@
 # Django
 
-### 1. 웹 프레임워크(Web Framework)
 
-#### 1. Static Web vs. Dynamic Web
 
-##### Static Web(정적 웹)
+## 1. 웹 프레임워크(Web Framework)
+
+### 1. Static Web vs. Dynamic Web
+
+#### Static Web(정적 웹)
 
 - 서버에 미리 저장된 html, css 등과 같은 파일이 사용자에게 전달되는 형태
 - 이미 완성된 파일을 전달하며, 추가적인 작업이 필요없으므로 속도가 빠르다
@@ -13,7 +15,7 @@
 
 
 
-##### Dynamic Web(동적 웹)
+#### Dynamic Web(동적 웹)
 
 - 웹 페이지에 대한 요청을 받은 뒤에 추가적인 과정을 거쳐 다시 클라이언트에게 응답하는 구조
   - 프로그래밍 언어와 DB를 활용하여 추가적인 작업을 거침
@@ -31,7 +33,7 @@
 
 
 
-#### 2. Framework
+### 2. Framework
 
 - 프로그래밍에서 특정 운영 체제를 위한 응용 프로그램 표준 구조를 구현하는 클래스와 라이브러리의 모임
 - 재사용할 수 있는 수많은 코드를 프레임워크로 통합함으로써 개발자가 새로운 어플리케이션을 위한 표준 코드를 다시 작성하지 않아도록 하여 작업의 효율성을 가져온다
@@ -39,11 +41,11 @@
 
 
 
-#### 3. Django
+## 2. Django
 
 파이썬 웹 프레임워크
 
-#####  Design Pattern
+###  1. Design Pattern
 
 사용자 인터페이스로부터 프로그램 로직을 분리하여 서로 영향없이 개발 가능함
 Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
@@ -69,9 +71,9 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 
 
-**[django 프레임워크 구조]**
+### 2. Django 프레임워크 구조
 
-<div><img src="https://user-images.githubusercontent.com/93081720/156373017-2f982514-c117-4709-b4e7-ca066c9ce1d7.jpg"/></div>
+![image](https://user-images.githubusercontent.com/93081720/158017906-831d62a3-e84c-4704-a512-ec856fc9b664.png)
 
 - 프로젝트(Project): 어플리케이션(Application; App)의 집합
 - 어플리케이션: 실제 요청을 처리하고 응답을 하는 등의 역할을 담당
@@ -80,7 +82,7 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 
 
-### 2. 프로젝트 환경 구축 순서
+### 3. 프로젝트 환경 구축 순서
 
 모든 과정에서 꼭꼭 오타를 유의할 것!!! 오타 때문에 생각보다 많은 시간을 소비할 때가 많았음
 
@@ -136,7 +138,7 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 
 
-### 3. 코드의 작성 순서
+### 4. 코드의 작성 순서
 
 `urls.py` → `views.py` → `template.html`을 순서로 작성한다.
 
@@ -191,6 +193,9 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
   - 표시할 변수를 수정할 때 사용함
     - 그러나 사실 변수를 조작한다면 파이썬 코드를 통해 조작을 다 한 상태에서 넘겨받는 게 더 낫다
   - 약 60여개의 built-in template filter가 존재함
+    - `turncateword`: 내용이 많을 경우 끝에 ...으로 표시하고 축약함
+    - `linebreaks`: html은 기본적으로 개행(`\n`)을 공백 처리하는데, 이를 개행으로 인식하게 해줌.
+    - `linebreaksbr`: linebreaks와 동일하나 linebreaks는 p태그로 라인 구분을 하고, br은 하나의 p태그로 먼저 감싼 뒤 br로 라인을 구분함
   - 커스텀 필터를 함수를 통해 작성하여 필터에 등록 후 임포트해서 사용 가능함(향후 작성)
   
 - 태그(Tag) : `{% tag %}`
@@ -251,9 +256,9 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
 
 
 
-### 4. HTTP request
+## 3. HTTP request
 
-##### 1. HTTP(HyperText Transfer Protocol)
+### 1. HTTP(HyperText Transfer Protocol)
 
 - HTML 문서와 같은 리소스들을 가져올 수 있도록 해주는 프로토콜(규칙, 규약)
 
@@ -264,14 +269,14 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
 
 
 
-##### 2. Request Object 
+### 2. Request Object 
 
 - 요청 간의 모든 정보를 담고 있는 변수
 - 페이지가 요청되면 django는 요청에 대한 메타 데이터를 포함하는 `HttpRequest`객체를 만들고, 적절한 view함수를 로드해서 객체를 함수의 첫번째 인자로 전달하여 `HttpResponse`객체를 반환함
 
 
 
-##### 3. Throw & Catch
+### 3. Throw & Catch
 
 [프로젝트 urls.py]
 
@@ -302,11 +307,11 @@ def catch(request):
 
 
 
-### 5. URL
+## 4. URL
 
 웹 어플리케이션은 URL을 통한 client의 request에서부터 시작하므로 중요함
 
-#### 1. Variable Routing
+### 1. Variable Routing
 
 url 주소를 변수로 동적으로 사용하는 것을 말함.
 url의 일부를 변수로 지정하여 view함수의 인자로 넘길 수 있음.
@@ -330,7 +335,7 @@ url의 일부를 변수로 지정하여 view함수의 인자로 넘길 수 있�
 
 
 
-#### 2. App URL Mapping
+### 2. App URL Mapping
 
 urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의 함수 또한 많아진다. 또한 어플리케이션도 더 생길 수 있기 때문에 프로젝트 단위에서 urls.py에서 관리하는 것은 유지보수에 있어 좋지 않다. 따라서 각 app에서 urls.py를 작성하여 path()를 관리하게 한다.
 
@@ -351,7 +356,7 @@ urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의
 
 
 
-#### 3. Naming URL Pattern
+### 3. Naming URL Pattern
 
 path()함수 안에 `name='index'`, `name='dinner'`와 같이 naming을 하여 template의 html에서
 url태그를 활용하여 name의 값을 사용 가능함
@@ -366,7 +371,7 @@ url태그를 활용하여 name의 값을 사용 가능함
 
 
 
-#### 11. Namespace
+### 4. Namespace
 
 django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보기 때문에 중간에 임의로 폴더를 넣어줘서 어떤 앱의 template, img파일인지 구분해줘야한다. 그렇지 않으면 Namespace 이슈가 발생한다.
 
@@ -400,8 +405,20 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 2.  각 template(.html)의 url 태그에 있는 url을 `'App명:지정한name'`형태로 수정한다.
    단, 이 때 해당 url로 call되는 모든 url태그의 url을 이런 형식으로 수정해줘야 오류 및 충돌이 나지 않음
 
-※ app_name을 urls.py에 쓰는 이유?
-우리가 어떤 사람과 처음 만났을 때 서로의 이름을 먼저 이야기하듯이, app도 마찬가지로 프로젝트의 urls.py에서 해당 앱에 해당하는 주소를 넘겨받아 왔을 때, 앱 자신의 이름을 먼저 이야기한다고 이해 		
+
+
+**※ app_name을 urls.py에 쓰는 이유?**
+우리가 어떤 사람과 처음 만났을 때 서로의 이름을 먼저 이야기하듯이, app도 마찬가지로 프로젝트의 urls.py에서 해당 앱에 해당하는 주소를 넘겨받아 왔을 때, 앱 자신의 이름을 먼저 이야기한다고 이해
+
+※ app_name을 잘못 쓴 채로 서버에 요청을 했을 때 No Reverse Match 예외가 발생한다.
+
+```python
+from django.urls import reverse
+# reverse 함수는 nampespace로 변경했던 주소를 원래 url주소로 반환해준다
+print(reverse('articles:index'))
+```
+
+
 
 예) articles앱의 index.html에서 page앱의 index를 url로 호출
 
@@ -409,7 +426,7 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 
 
 
-#### 12. Static files(정적 파일)
+## 5. Static files(정적 파일)
 
 응답 시 별도의 처리 없이 파일 내용을 그대로 보여주면 되는 파일, 사용자의 요청에 따라 내용이 바뀌는 것이 아니라 요청한 것을 그대로 보여주는 파일(서버에 존재하는 정적 자원) → 이미지, CSS, JS 파일 등
 
@@ -417,7 +434,7 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 
 ![image](https://user-images.githubusercontent.com/93081720/156861289-3458d016-4dc6-4dbb-8bbb-49e3fd918578.png)
 
-##### 1. STATIC_URL
+### 1. STATIC_URL
 
 - `STATIC_ROOT`에 있는 정적 파일을 참조할 때 사용할 URL, 기본값은 '`/static/`'
   - 실제 파일이나 디렉토리가 아니며, URL로만 존재 → 이미지에 대한 url이라고 보면 됨.
@@ -428,7 +445,7 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 
 
 
-##### 2. STATICFILES_DIRS
+### 2. STATICFILES_DIRS
 
 - 기본 경로(`app_name/static/`) 외에 추가적인 정적 파일 경로 목록을 정의하는 리스트
 
@@ -438,7 +455,7 @@ django는 templates, static 등과 같은 폴더를 한 군데에 모아서 보�
 
 
 
-##### 3. STATIC_ROOT
+### 3. STATIC_ROOT
 
 - 프로젝트에서 사용하는 모든 정적 파일을 한 곳에 모아 넣는 경로
 - `collectstatic`(명령어)이 배포를 위해 정적 파일을 수집하는 디렉토리의 절대 경로
@@ -483,7 +500,7 @@ h1 {
 
 
 
-### Model
+## 6. Model
 
 웹 어플리케이션의 데이터를 구조화하고 조작하기 위한 도구
 
@@ -495,7 +512,7 @@ h1 {
 
 
 
-### Data Base
+### 1. Data Base
 
 체계화된 데이터들의 모임, 집합
 
@@ -545,7 +562,7 @@ h1 {
 
 
 
-### ORM(Object-Relational-Mapping)
+### 2. ORM(Object-Relational-Mapping)
 
 객체 지향 프로그래밍 언어(OOP)를 사용하여, 서로 호환되지 않는 유형의 시스템(Django- SQL) 간에 데이터를 변환하는 프로그래밍 기술을 말함 → **DB를 객체로 조작하기 위해 ORM을 쓴다**
 Django는 내장 django ORM을 사용함
@@ -561,7 +578,7 @@ Django는 내장 django ORM을 사용함
 
 
 
-### models.py
+### 3. models.py
 
 models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
 각 모델들은 django.db의 models의 Model 클래스의 서브 클래스로 표현된다
@@ -584,7 +601,7 @@ models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
 
 
 
-#### Migrations
+#### 1. Migrations
 
 django가 model에 생긴 변화를 반영하는 방법
 
@@ -601,9 +618,12 @@ django가 model에 생긴 변화를 반영하는 방법
 
 - 마이그레이션을 DB에 반영하기 위해 사용함(=설계도를 실제 DB에 반영하는 과정)
 - 모델의 변경 사항들과 DB의 스키마를 동기화
-
 - `$ python manage.py migrate <app이름>` : migrate실행(model과 DB의 동기화)
+  - app_name/migrations 폴더에 `__init__.py`가 없으면 마이그레이션이 되지 않음
+    - DB를 직접 초기화하면서 실수로 직접 지울 수도 있으니 지우지 않도록 유의
+
   - app이 여러 개일 경우 migrate 뒤에 app이름을 명명해줘야 명령이 실행됨
+
 
 ##### 3. sqlmigrate
 
@@ -620,7 +640,7 @@ django가 model에 생긴 변화를 반영하는 방법
 
 
 
-### DB API
+### 4. DB API
 
 DB를 조작하기 위한 도구
 
@@ -629,7 +649,7 @@ Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울
 
 ※ DB API 구문 테스트는 `$ python manage.py shell_plus`를 하여 진행한다.
 
-#### DB API 구문
+#### 1. DB API 구문
 
 ![image](https://user-images.githubusercontent.com/93081720/157427156-66c8f17d-2ed9-4475-a5d7-5a00f254b51c.png)
 
@@ -655,9 +675,13 @@ Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울
 
 
 
-### CRUD
+### 5. CRUD
 
 컴퓨터 소프트웨어가 기본적으로 가지는 데이터 처리 기능 Create(생성), Read(읽기), Update(갱신), Delete(삭제)를 묶어 부르는 말
+
+각 app의 views.py에 `from .models import ClassName`을 하여 객체 생성을 할 수 있도록 불러옴
+
+![image](https://user-images.githubusercontent.com/93081720/158018475-28e85e3b-f57f-47ff-865f-fc53ff475c4d.png)
 
 #### 1. Create
 
@@ -729,6 +753,8 @@ QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
 - `인스턴스.delete()` 또는 `ClassName.objects.get(pk=int).delete()`
 - 쿼리셋을 삭제하고 삭제된 객체 수와 객체 유형당 삭제 수가 포함된 딕셔너리를 반환함
 
+![image](https://user-images.githubusercontent.com/93081720/158018926-c8e8a69e-c63e-48ad-a733-c4c334634fcd.png)
+
 
 
 #### 5. Field Lookups
@@ -743,7 +769,7 @@ QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
 
 
 
-### Admin Site
+### 6. Admin Site
 
 - 서버의 관리자가 활용하기 위한 페이지
   - record 생성 여부 확인에 매우 유용하며, 직접 record를 삽입할 수도 있음
@@ -772,7 +798,7 @@ QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
 
 #####  ※ admin options
 
-admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을 정의한 다음, register을 할 때, 클래스명 다음에 넣음 예) admin.site.register(Article, ArticleAdmin)
+admin.py에 admin.ModelAdmin을 상속하는 클래스(보통 `ClassName`+`Admin`형태로 만듦)를 만들어서 옵션을 정의한 다음, register을 할 때, 클래스명 다음에 넣음 예) admin.site.register(Article, ArticleAdmin)
 
 [ModelAdimin options](https://docs.djangoproject.com/en/3.2/ref/contrib/admin/#modeladmin-options)
 
@@ -785,11 +811,14 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을
 
 
 
-### HTTP method
+### 7. HTTP method
 
 #### 1. GET
 
 - 특정 리소스를 가져오도록 요청할 때 사용
+  - 주소창에 쿼리를 적어서 request하는 방식은 GET방식임
+    - 예) `/?name=siwon&age=30/`
+
 - 단, 반드시 데이터를 가져올 때만 사용해야함
 - DB에 변화를 주지 않음
 - CRUD에서 R 역할을 담당
@@ -803,26 +832,30 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을
 - DB/서버에 변경사항을 만듦
 - CRUD에서 C, U, D 역할을 담당
 
-
+![image](https://user-images.githubusercontent.com/93081720/158018690-3f0f2dbf-0d77-49ab-96cc-e3361c853a0d.png)
 
 #### ※ 사이트 간 요청 위조(CSRF; Cross-Site Request Forgery)
 
 - 웹 어플리케이션의 취약점 중 하나로 사용자가 자신의 의지와 무관하게 해커가 의도한 행동을 하여 특정 웹 페이지를 보안에 취약하게 하거나 수정 및 삭제 등의 작업을 하게 끔 만드는 공격 방법
 
 - Django에서는 CSRF에 대항하기 위해 Middleware와 CSRF token template tag를 제공함
-- Middleware
+- **Middleware**
   - 공통 서비스 및 기능을 앱에 제공하는 소프트웨어
   - 데이터 관리, 앱 서비스, 인증 및 API관리를 주로 미들웨어를 통해서 처리함
   - 개발자들이 앱을 보다 효율적으로 구축할 수 있도록 지원하며, 앱과 데이터 및 사용자 사이를 연결하는 요소처럼 작동함
-- CSRF Token
+- **CSRF Token**
   - 사용자의 데이터에 임의의 난수 값을 부여해, 매 요청마다 해당 난수 값을 포함하여 전송하도록 함
   - 이후 서버에서 요청을 받을 때마다 전달된 토큰값이 유효한지 검증
-  - GET을  제외한, 데이터 변경이 가능한 POST, DELETE 메서드 등에 적용
+  - **GET을  제외한, 데이터 변경이 가능한 POST, DELETE 메서드 등에 적용**
 
 -  `{% csrf_token %}`
   - from 태그 밑에 작성하여 form 태그 안의 label, input에 대해 csrf 방어를 적용함
   - input type이 hidden으로 작성되며, value값은 해시(hash)값으로 설정됨
   - 만약 해당 태그 없이 요청을 보낸다면 django 서버에서 403 forbidden을 응답함
+
+![image](https://user-images.githubusercontent.com/93081720/158018743-e16a4fd0-c3f0-4d3a-872f-50016e7a0cfd.png)
+
+![image](https://user-images.githubusercontent.com/93081720/158018776-51948dad-be62-4492-9cc9-b36f24dcf506.png)
 
 
 
@@ -837,10 +870,19 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을
 - `redirect()`
   - 해당 URL로 요청을 다시 보냄. 브라우저는 현재 경로에 따라 전체 URL 자체를 재구성(reconstruct)
   - urlpattern name이나 view object, model, 절대 경로, 상대 경로가 인자로 사용 가능함
+    - 예) redirect(`app_name:○○○○`)
+  - redirect를 하면 바로 redirecting으로 원하는 곳으로 이동하게 하는 것이 아니라 실제로는 여러 요청과 응답이 아래 그림과 같이 왔다 갔다 하는 구조임
+    - 그래서 터미널에 표시되는 redirect 요청에 따른 결과가 2개 이상으로 표시되는 것임
+    - 302: redirect와 관련된 코드
+    - `$ curl -i https://localhost:8000/app_name/OOO`을 입력하면 내용은 없고, 헤더에 `302 found`라 나오며, location에 redirecting되는 주소를 볼 수 있음
+
+![image](https://user-images.githubusercontent.com/93081720/157682633-3e056617-8b3f-4e60-b536-abdf225ca13c.png)
 
 **[app의 urls.py 수정]**
 
 ![image](https://user-images.githubusercontent.com/93081720/157469194-a8c5225b-e55c-4a92-98cb-1031446326f0.png)
+
+※ `<int:pk>`에서 좀 더 명확하게 `<int:app_name_pk>`이런 식으로 써주는 게 좋긴 함(이 경우, views함수에 서 받는 인자 역시 `app_name_pk`로 받아야함)
 
 **[app의 views.py 수정]**
 
@@ -848,12 +890,13 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을
 
 
 
-#### 기타
+
+
+## 기타
 
 - django의 기본 규칙
   - trailing comma(`,`) → 시퀀스 자료형에서 파이썬과 달리 마지막 요소에도 콤마(`,`)를 붙임
   - end slash(`/`) → 각 경로의 끝은 슬래시로 끝남
-
 - 주소(경로)
   - `http://127.0.0.1:8000/주소`
     - 앞에 있는 `http://127.0.0.1:8000/`는 기본 IP 주소
@@ -876,7 +919,7 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스를 만들어서 옵션을
       - `ALLOWED_HOSTS = []`에 값을 넣어야 False로 변경 가능
 - 서버를 실행(run)한 상태에서 스크립트 파일을 수정한 것은 저장 후 새로고침하면 html, css와 마찬가지로
   적용이 가능하지만, 폴더/파일의 생성/변경 등 구조적으로 무엇인가 바뀌었을 때는 서버를 껐다가 켜야함
-
+- import할 모듈을 찾지 못했을 때는 서버가 죽으므로 다시 켜주자
 - Django shell
   - 일반 python shell을 통해선 django 프로젝트 환경에 접근할 수 없음. 그래서 django 프로젝트 설정이 load된 python shell을 통해 DB API 구문 테스트를 진행해야함
   - 설치
