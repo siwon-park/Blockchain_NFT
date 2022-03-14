@@ -61,8 +61,6 @@ Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
 
 ![Model, View, Template](https://user-images.githubusercontent.com/93081720/156356726-d0a3712a-48fc-43a8-bf9a-eb91193b7787.png)
 
-
-
 ##### 장고 설치 시 유의
 
 - 설치 시 버전 유의: `3.2. 버전`을 설치할 것
@@ -605,7 +603,10 @@ models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
 
 django가 model에 생긴 변화를 반영하는 방법
 
-[명령어]
+> 기본적으로 models.py가 수정되면 makemigrations, migrate를 해줘야 한다고 생각해 둘 것
+> => 물론 항상 그런 것은 아님. 예를 들어 클래스 내에 매직 메서드를 추가하는 것은 DB테이블, DB모델에 영향을 주는 것이 아니므로 makemigraitons를 해도 아무런 변화가 없다고 출력됨. DB 속성 항목에 변화 및 영향을 주는 것에 대해서는 반드시 makemigrations와 migrate가 필요함! 
+
+**[명령어]**
 
 ##### 1. makemigrations(★)
 
