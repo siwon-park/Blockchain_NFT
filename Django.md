@@ -27,9 +27,9 @@
 
 ※ 웹(Web)의 핵심 키워드 4가지
 
-클라이언트(Client), 요청(Request), 서버(Server), 응답(Response)
+- 클라이언트(Client), 요청(Request), 서버(Server), 응답(Response)
 
-<div><img src="https://user-images.githubusercontent.com/93081720/156373401-9082e9a9-c4b8-47be-8964-6d6f8df95fa7.jpg" /></div>
+![image](https://user-images.githubusercontent.com/93081720/159146027-d2e3f575-17f2-4890-9faa-03cd9d9d9cce.png)
 
 
 
@@ -215,9 +215,15 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
 코드의 재사용성에 초점을 맞춰 템플릿은 상속이 가능함
 템플릿을 상속하면 사이트의 모든 공통 요소를 포함하면서 하위 템플릿이 재정의(오버라이딩) 할 수 있는 블록을 정의한 기본틀을 만들 수 있음(base.html)
 
+##### ※ 객체 지향적 경로
+
 상속을 위한 부모 템플릿은 보통 다른 디렉토리에 만드는데, `settings.py`에 TEMPLATE 리스트 안에 있는 딕셔너리에 'DIRS'에 해당하는 값에다가 `객체 지향적인 주소`를 작성해준다.
 예) `'DIRS': [BASE_DIR / 'templates']`
 → 개별 어플리케이션 하위 디렉토리인 templates가 아니라 부모 디렉토리의 templates를 경로로 인식 가능케함
+
+![image](https://user-images.githubusercontent.com/93081720/159146131-052349f7-faee-4cfc-845f-dbc16473c4a0.png)
+
+
 
 - `{% extends 'base.html' %}`
   - 자식(하위) 템플릿이 부모 템플릿('base.html')을 확장(상속받음)한다는 것을 알림
@@ -348,7 +354,7 @@ urls.py에 사용하는 path()가 많아지면 어플리케이션의 views.py의
 
 **[어플리케이션의 urls.py 작성]**
 
-어플리케이션 폴더에서 urls.py를 만들고 해당 어플리케이션으로 들어오는 상세 주소에 대한 urlpatters를 작성한다. 이 때, 현재 디렉토리에서 views 모듈을 호출하는`from . import views`를 써줘야한다.(함수를 호출해야하니까)
+어플리케이션 폴더에서 urls.py를 만들고 해당 어플리케이션으로 들어오는 상세 주소에 대한 urlpatterns를 작성한다. 이 때, 현재 디렉토리에서 views 모듈을 호출하는`from . import views`를 써줘야한다.(함수를 호출해야하니까)
 
 ![image](https://user-images.githubusercontent.com/93081720/156594369-49e6fddb-7ecd-4967-ba0a-96b056a062bb.png)
 
@@ -745,7 +751,9 @@ QuerySet API method를 사용해 다양한 방식으로 조회가 가능함.
 
 #### 3. Update
 
-- 인스턴스의 변수값을 변경하고 save()
+- DB에서 데이터를 불러와서 인스턴스화시킨 후, 인스턴스의 변수값을 변경하고 save()
+
+<img src="https://user-images.githubusercontent.com/93081720/159146243-5cde17c2-41d2-4597-89b8-a01960088f4d.png" alt="image"  />
 
 
 
@@ -820,9 +828,14 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스(보통 `ClassName`+`Admin
   - 주소창에 쿼리를 적어서 request하는 방식은 GET방식임
     - 예) `/?name=siwon&age=30/`
 
+
+[GET 방식 주소창 쿼리 요청 예시]
+
+![image](https://user-images.githubusercontent.com/93081720/159146352-7de2da98-f564-4539-995c-dda618f003e9.png)
+
 - 단, 반드시 데이터를 가져올 때만 사용해야함
 - DB에 변화를 주지 않음
-- CRUD에서 R 역할을 담당
+- CRUD에서 R(READ) 역할을 담당
 
 
 
@@ -831,9 +844,13 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스(보통 `ClassName`+`Admin
 - 서버로 데이터를 전송할 때 사용
 - 데이터를 생성/변경하기 위해 HTTP의 body에 담아 전송함
 - DB/서버에 변경사항을 만듦
-- CRUD에서 C, U, D 역할을 담당
+- CRUD에서 C(CREATE), U(UPDATE), D(DELETE) 역할을 담당
+
+##### [Create예시]
 
 ![image](https://user-images.githubusercontent.com/93081720/158018690-3f0f2dbf-0d77-49ab-96cc-e3361c853a0d.png)
+
+
 
 #### ※ 사이트 간 요청 위조(CSRF; Cross-Site Request Forgery)
 
@@ -890,6 +907,12 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스(보통 `ClassName`+`Admin
 ![image](https://user-images.githubusercontent.com/93081720/157469924-27d34a35-429d-4cf4-8669-778bee10ef4e.png)
 
 
+
+##### ※ template html파일에서 pk값을 url로 함께 받는 방법 예시 
+
+url태그 안에 변수로서 같이 넣어주면 됨(변수를 url태그 밖에 쓰거나, 따옴표와 함께 쓰지 않도록 주의할 것!)
+
+![image](https://user-images.githubusercontent.com/93081720/159146513-02dcf14f-b240-461b-b9ce-68ebca3d1db1.png)
 
 
 
