@@ -48,7 +48,7 @@
 ###  1. Design Pattern
 
 사용자 인터페이스로부터 프로그램 로직을 분리하여 서로 영향없이 개발 가능함
-Django의 디자인 패턴은 **MTV(Model - Template - View)**라고 함
+Django의 디자인 패턴은 **MTV(Model - Template - View)** 라고 함
 ※ 다른 프레임워크는 MVC(Model - View - Controller) 디자인 패턴을 갖고 있음
 
 - **Model** : 프로그램의 데이터 구조를 정의하고 데이터베이스의 기록을 관리함 
@@ -165,7 +165,7 @@ Template에 요청에 맞는 응답 서식을 맞기고 불러옴
 ※ django의 설계 철학
 
 - 표현과 로직(view)의 분리: Template 시스템은 표현을 제어하는 도구이자 표현과 관련된 로직일 뿐, 이 기본 목표를 넘어서는 기능은 지원하지 말아야 한다.(템플릿의 핵심은 표현)
-- 중복을 배제함: 대다수의 동적 웹사이트는 header, footer, navbar와 같은 공통 디자인을 갖는데, django 템플릿 시스템은 이러한 요소를 한곳에 저장하여 중복을 뱌제한다.(상속의 개념)
+- 중복을 배제함: 대다수의 동적 웹사이트는 header, footer, navbar와 같은 공통 디자인을 갖는데, django 템플릿 시스템은 이러한 요소를 한곳에 저장하여 중복을 배제한다.(상속의 개념)
 
 ##### 1. Django Template Language(DTL)
 
@@ -200,6 +200,7 @@ HTML은 마크업 언어이기 때문에 변수나 반복이 없음
   - 반복, 논리(if/else)를 수행하여 제어흐름을 만드는 등의 복잡한 과정을 수행
   - 일부 태그는 시작과 종료 태그가 필요함
     - `{% if %}{% endif %}` , `{% for %}{% endfor %}`
+  - [태그 및 필터 django 공식 문서](https://docs.djangoproject.com/en/3.2/ref/templates/builtins/)
 
 ※ DTL의 주석
 
@@ -436,7 +437,9 @@ print(reverse('articles:index'))
 
 기본 경로는 `app_name/static/`이나 어플리케이션이 여러 개일 경우 역시 Namespace이슈가 발생할 수 있기 때문에,  `app_name/static/app_name`의 디렉토리 구조로 static파일을 저장함
 
-![image](https://user-images.githubusercontent.com/93081720/156861289-3458d016-4dc6-4dbb-8bbb-49e3fd918578.png)
+![image](https://user-images.githubusercontent.com/93081720/159164839-2ad0ff8f-d8df-4d3b-a906-14bdee19773e.png)
+
+
 
 ### 1. STATIC_URL
 
