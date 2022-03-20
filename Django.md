@@ -604,6 +604,7 @@ models.py에 작성하는 모든 클래스들은 각각의 모델들이며,
   - (DateTimeField는 DateField의 서브 클래스임)
   - auto_now_add: 최초 생성 일자; True일 경우, 최초 생성 일자를 기록함
   - auto_now: 최종 수정 일자; True일 경우
+- [필드 타입(Field types) django 공식 문서](https://docs.djangoproject.com/en/3.2/ref/models/fields/#field-types)
 
 
 
@@ -657,7 +658,7 @@ DB를 조작하기 위한 도구
 Django가 기본적으로 ORM을 제공함에 따른 것으로 DB를 편하게 조작할 수 있도록 도와줌.
 Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울 수 있는 database-abstract API(혹은 database-access API)를 자동으로 만듦
 
-※ DB API 구문 테스트는 `$ python manage.py shell_plus`를 하여 진행한다.
+※ DB API 구문 테스트는 `$ python manage.py shell_plus`를 하여 진행한다.(django-extensions 설치 필요)
 
 #### 1. DB API 구문
 
