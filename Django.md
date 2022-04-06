@@ -725,6 +725,10 @@ Model을 만들면 django는 객체들을 만들고, 읽고, 수정하고 지울
 >>> Article.objects.create(title="third", content="django!") # 바로 저장됨
 ```
 
+단, 이 방법은 데이터 검증 과정 없이 바로 save되기 때문에 권장하는 방법은 아니다.
+
+
+
 ※ **save 메서드**(`save()`)
 객체를 DB에 저장하는 메서드
 데이터 생성 시 save를 하기 전에는 객체의 id값이 무엇인지 알 수 없음 → id값은 DB에서 계산되기 때문
@@ -917,6 +921,154 @@ admin.py에 admin.ModelAdmin을 상속하는 클래스(보통 `ClassName`+`Admin
 url태그 안에 변수로서 같이 넣어주면 됨(변수를 url태그 밖에 쓰거나, 따옴표와 함께 쓰지 않도록 주의할 것!)
 
 ![image](https://user-images.githubusercontent.com/93081720/159146513-02dcf14f-b240-461b-b9ce-68ebca3d1db1.png)
+
+
+
+### 8. Django-Form(forms.py)
+
+지금까지 HTML의 from태그와 input태그를 통해서 사용자로부터 데이터를 입력받았음
+
+그러나 이렇게 직접 사용자의 데이터를 입력 받으면 데이터 유효성 검사가 필요한데, 이 과정을 코드로 구현하는 것은 많은 노력과 시간이 필요함
+
+Django에선 Form Class를 제공하여 작업을 훨씬 쉽게 만들어줌
+
+forms.py 생성, views함수 수정, templates 수정 작업 필요
+
+※ forms.py는 어느 위치에 두어도 상관은 없지만, 되도록 app 폴더 안에서 작성하여 관리한다. (작성 내용이 models와 내용이 비슷해서 가끔 models.py안에 그 내용을 쓰기도하는 케이스가 있음)
+
+※ **유효성 검사**: 요청한 데이터가 특정 조건에 부합하는지 확인하는 작업으로, DB 각 필드 조건에 올바르지 않은 데이터가 서버로 전송되거나 저장되지 않도록 하는 것
+
+
+
+#### 1. Django Forms
+
+django의 유효성 검사 도구 중 하나로, 외부의 악의적 공격 및 데이터 손상에 대한 중요한 방어 수단
+
+유효성 검사 단순화, 자동화 기능 제공 => 빠른 작업 및 안전성 제공
+
+- 렌더링을 위한 데이터 준비 및 재구성
+- 데이터에 대한 HTML form 생성(html의 form태그, input태그 대체)
+- 클라이언트로 받은 데이터 수신 및 처리
+
+
+
+#### 2. Form Class
+
+ form 내 field, field배치, widget디스플레이, label, 에러 메세지 등을 결정
+
+1. **Form Class 선언**
+
+![image](https://user-images.githubusercontent.com/93081720/161967646-b5377998-51ec-41e7-9959-4ea62a49056b.png)
+
+Model을 선언하는 것과 유사하며 같은 필드 타입을 사용함(매개변수 또한 유사한 케이스가 많음)
+
+forms 라이브러리의 Form클래스를 상속받는다(forms.Form)
+
+- form fields: form fields는 input의 유효성 검사를 처리하며, 템플릿에서 직접 사용됨
+- widgets: HTML input element 렌더링(표현), 위젯은 반드시 formfields에 할당됨
+
+
+
+2. **views함수 수정**
+
+![image](https://user-images.githubusercontent.com/93081720/161968141-7b750b7c-e9f9-4965-83af-aa2d2c387e3b.png)
+
+
+
+3. **html 템플릿 수정**
+
+![image](https://user-images.githubusercontent.com/93081720/161968005-3c983272-2452-47d6-90dd-087cf897b6f0.png)
+
+※ form rendering option
+
+(1) forms.as_p() : 각 필드가 p태그로 감싸져서 렌더링
+
+(2) forms.as_ul() : 각 필드가 li태그로 감싸져서 랜더링. 단, ul태그는 직접 작성해야함
+
+(3) forms.as_talbe() : 각 필드가 tr태그로 감싸져서 렌더링. 단, table태그는 직접 작성해야함
+
+
+
+#### 3. ModelForm
+
+Form 클래스를 사용하다 보면 Model에서 정의한 필드를 작성하는 작업에서 중복이 발생할 수도 있음
+
+그래서 django에서는 Model을 통해 Form 클래스를 만들 수 있는 조력자를 제공해줌
+
+1. **ModelForm 작성**
+
+![image](https://user-images.githubusercontent.com/93081720/161969831-b87b1644-db5a-4139-a781-1604b374c17e.png)
+
+- forms.ModelForm을 상속 받음
+- 클래스 안에 Meta 클래스를 선언하고, 어떤 모델을 기반으로 Form을 작성할 것인지 선언 후, fields에 대한 정보를 작성함(단, fields 속성과 exclude속성은 같이 사용할 수 없다.)
+
+※ Meta Class
+
+model의 정보를 작성하는 곳으로 ModelForm을 사용할 경우 사용할 모델을 Meta 클래스로 구성함
+
+- Meta 데이터: "데이터에 대한 데이터" ex) 사진 파일 => 사진 데이터에 해상도, 촬영 일자 등의 데이터 존재
+
+[참고] Inner Class(Nested Class)
+
+- 클래스 내에 선언된 다른 클래스
+- 관련 클래스를 함께 그룹화하여 가독성 및 프로그램 유지 관리를 지원함(논리적으로 그룹화하여 표현)
+- 외부에서 내부 클래스에 접근할 수 없으므로 코드의 복잡성을 줄일 수 있음
+
+
+
+2. **views 함수 수정**-1
+
+![image](https://user-images.githubusercontent.com/93081720/161970858-463b770f-a1c0-4e01-aadf-c63ac107a49f.png)
+
+- `is_valid()` : 유효성 검사를 실행하고, 데이터 유효여부를 boolean형으로 반환함
+
+- `.save()` : form에 바인딩된 데이터에서 DB객체를 만들고 저장
+  - ModelForm의 save메서드는 반환값이 있지만, 그냥 Form은 save메서드가 존재하지 않음
+  - ModelForm의 서브 클래스는 기존 모델 인스턴스를 키워드 인자 `instance`로 받아들일 수 있음
+    - instance가 있을 경우 save()메서드는 해당 인스턴스를 수정함(UPDATE)
+    - instance가 없을 경우 save()메서드는 지정된 모델의 새 인스턴스를 만듦(CREATE)
+  - Form의 유효성이 확인되지 않은 경우 save()를 호출하면 `form.errors`를 통해 에러 확인 가능함
+
+**[update함수 구조 변경 -> edit함수와 결합]**-2
+
+- 기존에 작성했던 new함수와 create함수의 구조를 변경해서 합칠 수 있으며, 마찬가지로 edit함수와 update함수의 구조를 변경해서 합칠 수 있음(각각 결합한 두 함수의 기능이 사실상 유사하기 때문)
+
+![image](https://user-images.githubusercontent.com/93081720/161973079-fc111b79-0e5a-484c-aa35-0b74e8d101ce.png)
+
+※ context의 들여쓰기 유의: form가 유효하든 하지 않든 데이터를 받아와서 렌더링을 해야하므로 context의 들여쓰기는 if-else 구문과 동일 레벨임
+
+※ create는 데이터 생성이므로 아직 만들어진 인스턴스가 없으므로 `ArticlesForm()`에 instance옵션이 없는 것임
+
+
+
+![image](https://user-images.githubusercontent.com/93081720/161972032-e6bae1d7-f81f-41fa-8861-782e3fc04603.png)
+
+※ update는 데이터를 수정하는 것이므로 이미 객체가 있다. 따라서 `ArticleForm()`의 옵션으로 instance를 넣어서 수정할 모델의 인스턴스를 지정해줘야한다
+
+
+
+#### `Form` vs. `ModelForm`
+
+- Form
+  - 어떤 Model에 값을 저장해야하는지 정확히 알 수 없으므로 값에 대한 인증 절차만 거침(DB와 연관이 없음)
+  - DB와 연관되지 않은 데이터를 입력으로 받을 때 사용함 => 예) 로그인
+
+
+
+- ModelForm
+  - ModelForm을 사용한다는 것은 model에서 필요한 대부분의 정보를 이미 정의했다는 뜻
+  - 따라서 어떤 레코드를 만들어야할 지 알고 있으므로 바로 save()를 호출 가능함
+  - DB와 연관된 데이터를 입력으로 받을 때 사용함 => 예) 회원가입
+
+
+
+#### 4. widgets 활용
+
+메타 클래스 안에 widget을 클래스 변수로 딕셔너리 형태로 작성하여도 되지만 아래 그림과 같은 방식을 권장함
+
+![image](https://user-images.githubusercontent.com/93081720/161974405-78bf2ddb-285a-4d37-a119-93445f0dd884.png)
+
+
 
 
 
