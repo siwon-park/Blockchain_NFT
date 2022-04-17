@@ -78,6 +78,9 @@ ForeignKey는 migrate되고 나면 **참조되는 객체의 소문자 단수형_
 
   - `참조하는 클래스명_set` 형태의 manager를 활용
 
+
+why 역참조?
+
 - 게시글에 몇 개의 댓글이 작성되었는지 모름
 
   - article에 comment가 있을 수도 있고 없을 수도 있음
@@ -87,6 +90,8 @@ ForeignKey는 migrate되고 나면 **참조되는 객체의 소문자 단수형_
   - article`.comment_set`.all() => 1:N 관계에서의 역참조라는 것을 명시적으로 알 수 있음
 
     article`.comments`.all() => 1:N, M:N 어떤 관계에 해당하는 것인지 알기 힘들다
+
+![image](https://user-images.githubusercontent.com/93081720/163719010-60aa8339-f4c3-4516-acb6-3f0e6b7fc64b.png)
 
 ※ related_name 속성 - 역참조 시 사용할 이름(model_set manager)의 이름을 변경할 수 있는 옵션
 
@@ -103,14 +108,15 @@ ForeignKey는 migrate되고 나면 **참조되는 객체의 소문자 단수형_
 - 댓글의 경우, 어떠한 댓글이든 반드시 자신이 참조하고 있는 게시글이 존재하기 때문에 comment.article과 같은 형태로 접근할 수 있음
 
   - comment`.article_id` = article.pk
-
   - **comment`.article` = article (권장)**
+
+![image](https://user-images.githubusercontent.com/93081720/163719733-23425408-bb00-4be5-b018-3584dcfafb61.png)
 
 ----
 
 ## 02. 댓글 기능 구현
 
-댓글 기능은 게시판의 기능 중 하나이므로 게시판 앱에서 작성한다.
+댓글 기능은 게시판의 기능 중 하나이므로 게시판(articles) 앱에서 작성한다.
 
 ### 00. 공통 - ulrs.py 추가
 
@@ -178,7 +184,7 @@ Django에서는 커스텀 유저 모델을 설정하는 것을 강력하게 권�
 
 
 
-#### 02. AUTH_USER_MODEL
+#### 01. AUTH_USER_MODEL
 
 User를 나타내는데 사용하는 모델
 
@@ -219,13 +225,13 @@ accounts 앱의 User 모델을 사용하겠다고 설정
 
 기존 내장 UserModelForm을 썼다면 Form에 대해서도 커스텀 필요 => 왜냐하면 UserCreationForm, UserChangeForm은 기존 내장 ModelForm인데, Meta 클래스에서 참조하고 있는 모델이 Django의 기본 User 모델이기 때문이다.
 
-##### 01. UserCreationForm, UserChangeForm을 상속받아 커스텀 Form 작성
+#### 01. UserCreationForm, UserChangeForm을 상속받아 커스텀 Form 작성
 
 Meta 클래스도 역시 UserCreationForm.Meta, UserChangeForm.Meta를 상속받아야함
 
 ![image](https://user-images.githubusercontent.com/93081720/163698471-5b1c67db-6929-4f2b-823e-c12797e231c2.png)
 
-##### 02. signup view함수 수정
+#### 02. signup view함수 수정
 
 ![image](https://user-images.githubusercontent.com/93081720/163219728-455536f8-e318-48f4-bba0-05c6097f447d.png)
 
@@ -254,12 +260,14 @@ Meta 클래스도 역시 UserCreationForm.Meta, UserChangeForm.Meta를 상속받
 
 ![image](https://user-images.githubusercontent.com/93081720/163221970-e2d240cf-4b1a-4b36-bbf7-fd40fa8944f6.png)
 
+<br>
+
 - ##### get_user_model()
 
   - 리턴값: User Object
   - **models.py가 아닌 곳에서 User모델을 참조할 때 사용**
 
-![image](https://user-images.githubusercontent.com/93081720/163221500-d8b98f99-c3ae-4d5f-9b2c-67a0cd3d0e3f.png)
+![image](https://user-images.githubusercontent.com/93081720/163720181-56076958-a01d-455f-95ba-9fe06dbf75da.png)
 
 
 
