@@ -88,6 +88,14 @@ ForeignKey는 migrate되고 나면 **참조되는 객체의 소문자 단수형_
 
     article`.comments`.all() => 1:N, M:N 어떤 관계에 해당하는 것인지 알기 힘들다
 
+※ related_name 속성 - 역참조 시 사용할 이름(model_set manager)의 이름을 변경할 수 있는 옵션
+
+![image](https://user-images.githubusercontent.com/93081720/163698245-88bbd3f0-1560-4757-9eaf-c027d7c7c7ef.png)
+
+위 예시와 같이 변경 시 article.comment_set 사용 불가. article.comments로 역참조를 해야함(migration과정 필요)
+
+
+
 #### 참조
 
 예) Comment(N) → Article(1)
@@ -128,9 +136,9 @@ comments를 통해 Comment Read 구현
 
 ![image](https://user-images.githubusercontent.com/93081720/163213854-9aff5493-a6f6-4107-a6d0-4c2c55aa9e7c.png)
 
-- #### save(commit=False)
+- #### save(`commit=False`)
 
-  - 인스턴스를 만들지만, DB에 저장은 하지 않음
+  - 인스턴스를 만들지만, DB에 저장은 하지 않음(아직 DB에 저장되지 않은 인스턴스를 반환)
   - 저장하기 전에 객체에 대한 사용자 지정 처리를 수행할 때 유용하게 사용
   - 기본값은 True
 
@@ -162,7 +170,7 @@ comments를 통해 Comment Read 구현
 
 Django에서는 커스텀 유저 모델을 설정하는 것을 강력하게 권장함
 
-※ 프로젝트의 모든 마이그레이션, 첫 마이그레이트를 하기 전에 이 작업을 마치고 시작해야함
+**※ 프로젝트의 모든 migrations, 첫 migrate를 하기 전에 이 작업을 마치고 시작해야함**
 
 => 그만큼 중요하며, 프로젝트가 진행되는 동안 변경이 매우 어려우므로, DB 모델링을 하는데에 엄청난 시간과 공수를 들이는 것임
 
@@ -213,7 +221,9 @@ accounts 앱의 User 모델을 사용하겠다고 설정
 
 ##### 01. UserCreationForm, UserChangeForm을 상속받아 커스텀 Form 작성
 
-![image](https://user-images.githubusercontent.com/93081720/163219128-5a88d1e6-f1bb-4d97-a870-a0f88b9fac7a.png)
+Meta 클래스도 역시 UserCreationForm.Meta, UserChangeForm.Meta를 상속받아야함
+
+![image](https://user-images.githubusercontent.com/93081720/163698471-5b1c67db-6929-4f2b-823e-c12797e231c2.png)
 
 ##### 02. signup view함수 수정
 

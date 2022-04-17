@@ -142,7 +142,7 @@ ID는 세션을 구별하기 위해 필요하며, 쿠키에는 ID만 저장함
 
 #### 03. get_user()
 
-AuthenticationForm의 인스턴스 메서드
+AuthenticationForm의 인스턴스 메서드 =>  get_user()는 AuthenticationForm의 인스턴스만 적용 가능
 
 user_cache는 인스턴스 생성 시 None이며, 유효성 검사를 통과했을 경우에 로그인한 사용자 객체로 할당됨 => 인스턴스의 유효성을 먼저 확인하고, 해당 인스턴스가 유효할 때만 user를 제공하려는 구조
 
@@ -219,6 +219,8 @@ user_cache는 인스턴스 생성 시 None이며, 유효성 검사를 통과했�
 #### 03. next query string parameter
 
 로그인이 정상적으로 진행되면 기존에 요청했던 주소로 redirect하기 위해 주소를 keep해주는 개념 (단, 별도로 처리해주지 않으면 views함수에 설정한 redirect 경로로 이동하게 됨)
+
+※ @login_required 데코레이터가 있어야 next query string parameter가 있음
 
 - redirect 수정
   - request.GET.get('next')는 next query string parameter가 없을 경우 None을 반환한다
