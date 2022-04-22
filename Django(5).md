@@ -367,8 +367,8 @@ Serializer에 인스턴스를 넘겨주지 않은 이상 .save()를 통해서만
 
 특정 게시글(1)에 작성된 댓글 목록(N)  출력하기 => 기존의 필드 override
 
-- PrimaryKeyRelatedField
-- Nested relationships
+- PrimaryKeyRelatedField => 역참조 대상의 id를 출력함
+- Nested relationships => 역참조 대상의 모든 내용을 nested(중첩)하게 표현함
 
 특정 게시글(1)에 작성된 댓글 개수(N)  출력하기 => 새로운 필드 추가
 
@@ -387,6 +387,8 @@ _set 필드값은 역참조할 때만 사용하는 필드이므로 form-data로 
 ![image](https://user-images.githubusercontent.com/93081720/164371737-8e263b26-760f-4b2c-a5c8-7203d89bd118.png)
 
 ※ 단, 모델에서 ForeignKey필드의 related_name을 따로 변경해줬다면 변수명도 변경한 related_name으로 지정해줘야 한다.
+
+
 
 <br>
 
@@ -418,6 +420,9 @@ serializer를 필드로 사용하여 구현 가능
 #### ※ 서로 참조하고 싶은 경우 해결법?
 
 1. 한 클래스의 inner 클래스로 선언함
+
+![image](https://user-images.githubusercontent.com/93081720/164724888-9df429dd-1de0-4579-8ef8-ddc52e9fc401.png)
+
 2. 다른 파일에서 새로 작성하여 import해서 사용함
 
 
@@ -427,3 +432,61 @@ serializer를 필드로 사용하여 구현 가능
 특정 필드를 override 혹은 새롭게 추가한 경우 read_only_fields에 등록하여 사용하는 것은 불가능함. 반드시 속성 값으로 read_only=True를 지정해줘야한다.
 
 ![image](https://user-images.githubusercontent.com/93081720/164379403-a8d03d9b-0ad1-4217-ba16-c03351d9580c.png)
+
+<br>
+
+----
+
+## Fixtures
+
+DB에 채우는 테스트용 초기 데이터를 Fixtures라고 한다.
+
+DB의 serialized된 내용을 포함하는 파일 모음
+
+<br>
+
+- 왜 사용하는가?
+  - 앱을 처음 설정할 때, 미리 준비된 데이터로 DB를 채우는 작업이 필요한 상황이 있음
+
+- django가 fixtures 파일을 찾는 경로
+  - apps/fixtures/
+- 사용법
+  - django_seed로 임의 데이터를 DB에 넣음
+  - dumpdata를 통해 fixtures파일을 생성함
+  - 생성한 fixtures파일을 django의 fixtures파일 저장 경로에 저장
+  - DB migrate 또는 DB에 데이터가 있으면 DB 초기화 후, loaddata를 통해 fixtures파일 업로드
+
+<br>
+
+### 1. dumpdata
+
+응용 프로그램과 관련된 DB의 모든 데이터를 표준 출력으로 출력(저장)
+
+※ fixtures는 직접 생성하는 것이 아니라 dumpdata를 통해 생성하는 것이니 직접 작성 X 
+
+- 기본 사용 형태
+
+![image](https://user-images.githubusercontent.com/93081720/164727193-d3df289d-4cda-45e6-95f9-8ab8b0c9d845.png)
+
+<br>
+
+예시) user.json으로 저장
+
+![image](https://user-images.githubusercontent.com/93081720/164727440-5e97b6d1-e826-4872-b3a3-63cd634741cc.png)
+
+<br>
+
+![image](https://user-images.githubusercontent.com/93081720/164727699-cbb2ee8d-4355-4547-9d1a-8ef77c7ab3d8.png)
+
+<br>
+
+### 2. loaddata
+
+fixture의 내용을 검색하여 DB에 업로드
+
+예시) DB 초기화 또는 migrate 이후 loaddata 실행
+
+![image](https://user-images.githubusercontent.com/93081720/164728896-bf13685b-d3d1-4fed-b7c0-748b68523d5f.png)
+
+<br>
+

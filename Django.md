@@ -936,7 +936,9 @@ forms.py 생성, views함수 수정, templates 수정 작업 필요
 
 ※ **유효성 검사**: 요청한 데이터가 특정 조건에 부합하는지 확인하는 작업으로, DB 각 필드 조건에 올바르지 않은 데이터가 서버로 전송되거나 저장되지 않도록 하는 것
 
+![image](https://user-images.githubusercontent.com/93081720/164443588-7080c0bd-958a-4e95-98e6-9438b58c6796.png)
 
+<br>
 
 #### 1. Django Forms
 
