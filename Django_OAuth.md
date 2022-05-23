@@ -74,6 +74,22 @@ OpenID도 인증을 위한 표준 프로토콜이고 HTTP를 사용한다는 점
 
 
 
-#### 전체적인 흐름(Google 예시)
+### 3. 전체적인 흐름(Google 예시)
 
 - GCP -> pjt 생성 및 등록 -> API 및 서비스 -> OAuth 동의 화면 -> User Type '외부' 설정 -> 기타 추가적인 설정 -> 사용자 인증 정보 -> 사용자 인증 정보 만들기 -> OAuth 클라이언트 ID -> 승인된 리디렉션 URI -> Django admin page에서 소셜 어플리케이션 추가 및 등록
+
+
+
+#### 소셜 어플리케이션 추가
+
+구글의 경우 발급받은 클라이언트 아이디/비밀번호를 넣고, 카카오의 경우 REST API키만 넣으면 됨
+
+![image](https://user-images.githubusercontent.com/93081720/168420112-1c865ea3-9463-4a23-914a-438218850ef6.png)
+
+
+
+
+
+#### Redirect URI 등록
+
+![image](https://user-images.githubusercontent.com/93081720/168420060-053e000d-77b0-4986-b7c5-6f5e8bc8d9c7.png)
