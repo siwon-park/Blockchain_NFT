@@ -88,6 +88,8 @@ OpenID도 인증을 위한 표준 프로토콜이고 HTTP를 사용한다는 점
 
 
 
+![image](https://user-images.githubusercontent.com/93081720/170469275-b47670b7-f59a-46bb-873f-0b2999597896.png)
+
 
 
 #### Redirect URI 등록
