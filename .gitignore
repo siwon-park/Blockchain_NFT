@@ -7,6 +7,7 @@ imgs/
 *.zip
 *.pdf
 klytn key.txt
+*.json
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
