@@ -6,7 +6,7 @@
 .pnp.js
 
 App.js
-/constants
+/src/constants
 
 # testing
 /coverage
