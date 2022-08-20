@@ -6,7 +6,9 @@
 .pnp.js
 
 App.js
-/src/constants/
+
+/src/constants/constants.baobab.js
+/src/constants/constants.cypress.js
 
 # testing
 /coverage
