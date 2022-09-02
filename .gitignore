@@ -8,6 +8,7 @@ imgs/
 *.pdf
 klytn key.txt
 MetaMask Secret Recovery Phrase.txt
+address.txt
 *.json
 
 ### Python ###
